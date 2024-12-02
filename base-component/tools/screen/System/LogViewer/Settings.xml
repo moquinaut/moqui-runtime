@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+This software is in the public domain under CC0 1.0 Universal plus a 
+Grant of Patent License.
+
+To the extent possible under law, the author(s) have dedicated all
+copyright and related and neighboring rights to this software to the
+public domain worldwide. This software is distributed without any
+warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication
+along with this software (see the LICENSE.md file). If not, see
+<http://creativecommons.org/publicdomain/zero/1.0/>.
+-->
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
+        default-menu-title="Settings" default-menu-index="2">
+
+    <transition name="updateLevels">
+        <actions>
+            <script>
+                ec.logger.setLevelEnabled(org.moqui.context.LoggerFacade.TRACE_INT, traceEnabled == "true" ? true : false)
+                ec.logger.setLevelEnabled(org.moqui.context.LoggerFacade.DEBUG_INT, debugEnabled == "true" ? true : false)
+                ec.logger.setLevelEnabled(org.moqui.context.LoggerFacade.INFO_INT, infoEnabled == "true" ? true : false)
+                ec.logger.setLevelEnabled(org.moqui.context.LoggerFacade.WARN_INT, warnEnabled == "true" ? true : false)
+                ec.logger.setLevelEnabled(org.moqui.context.LoggerFacade.ERROR_INT, errorEnabled == "true" ? true : false)
+            </script>
+        </actions>
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <set field="traceEnabled" from="ec.logger.isLevelEnabled(org.moqui.context.LoggerFacade.TRACE_INT)"/>
+        <set field="debugEnabled" from="ec.logger.isLevelEnabled(org.moqui.context.LoggerFacade.DEBUG_INT)"/>
+        <set field="infoEnabled" from="ec.logger.isLevelEnabled(org.moqui.context.LoggerFacade.INFO_INT)"/>
+        <set field="warnEnabled" from="ec.logger.isLevelEnabled(org.moqui.context.LoggerFacade.WARN_INT)"/>
+        <set field="errorEnabled" from="ec.logger.isLevelEnabled(org.moqui.context.LoggerFacade.ERROR_INT)"/>
+    </actions>
+
+    <widgets>
+        <form-single name="LogLevels" transition="updateLevels">
+            <field name="traceEnabled">
+                <default-field title="TRACE" tooltip="Fine-grained debug messages, typically capturing the flow through the application">
+                    <radio>
+                        <option key="true" text="On"/>
+                        <option key="false" text="Off"/>
+                    </radio>
+                </default-field>
+            </field>
+            <field name="debugEnabled">
+                <default-field title="DEBUG" tooltip="General debugging events">
+                    <radio>
+                        <option key="true" text="On"/>
+                        <option key="false" text="Off"/>
+                    </radio>
+                </default-field>
+            </field>
+            <field name="infoEnabled">
+                <default-field title="INFO" tooltip="Events for informational purposes">
+                    <radio>
+                        <option key="true" text="On"/>
+                        <option key="false" text="Off"/>
+                    </radio>
+                </default-field>
+            </field>
+            <field name="warnEnabled">
+                <default-field title="WARN" tooltip="Events that might possibly lead to an error">
+                    <radio>
+                        <option key="true" text="On"/>
+                        <option key="false" text="Off"/>
+                    </radio>
+                </default-field>
+            </field>
+            <field name="errorEnabled">
+                <default-field title="ERROR" tooltip="Errors in the application, possibly recoverable">
+                    <radio>
+                        <option key="true" text="On"/>
+                        <option key="false" text="Off"/>
+                    </radio>
+                </default-field>
+            </field>
+            <field name="submitButton">
+                <default-field title="Update">
+                    <submit/>
+                </default-field>
+            </field>
+        </form-single>
+    </widgets>
+</screen>
